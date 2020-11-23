@@ -11,13 +11,14 @@ def main():
   tcp.connect(orig)
   # tcp.send(str.encode(uuid.uuid4().hex))
   while True:
-    print(f'1) Solicitar Token (3 -1) \n2) Devolver token (5 X) \n3) Solicita quantidade de recursos disponíveis (1 -1)   \n')
+    print(f'1) Solicitar Token (3 -1) \n2) Solicita quantidade de recursos disponíveis (1 -1)   \n')
     msg = input('Insira a opção escolhida:  ')
-    tcp.send(str.encode(msg))
-    # data = tcp.recv(1024)    
+    tcp.send(str.encode(msg))    
     info = tcp.recv(1024)
-    print(info.decode('utf-8'))
-
+    if msg == '2':
+      print(info.decode('utf-8'))
+      break
+      
 
 
 if __name__ == "__main__":

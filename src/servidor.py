@@ -2,6 +2,7 @@
 
 import socket
 import threading
+import uuid
 
 def main():
   HOST = 'localhost'
@@ -18,9 +19,10 @@ def main():
     print(f'Conectado com o cliente: {cliente}')
     data = conn.recv(1024)    
     print(f'Cliente: {cliente}\n')    
-    if '3' == data.decode('utf-8'):      
+    if '2' == data.decode('utf-8'):      
       info = (str(qtde_token) + ' tokens disponiveis')
       conn.send(info.encode('utf-8')) # Envia mensagem
+    
     qtde_token -= 1    
     conn.sendall(data)  
     
