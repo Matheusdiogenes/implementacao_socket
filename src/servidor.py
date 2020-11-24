@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import socket
-import threading
 import uuid
 
 def main():
@@ -12,19 +11,33 @@ def main():
   tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
   tcp.bind(orig)
   tcp.listen()  
-  qtde_token = int(input("Quantidade de token: "))
+  qtde_token = int(input("Quantidade de token: "))  
+  control = qtde_token
   while True:
     print('Aguardando conexão...')
-    conn, cliente = tcp.accept()
+    conn, cliente = tcp.accept()    
     print(f'Conectado com o cliente: {cliente}')
-    data = conn.recv(1024)    
-    print(f'Cliente: {cliente}\n')    
-    if '2' == data.decode('utf-8'):      
+    data = conn.recv(1024)        
+
+    if '1' == data.decode('utf-8'):      
+      if qtde_token > 0:
+        token = uuid.uuid4().hex
+        conn.send(token.encode())
+        qtde_token -= 1
+      else:
+        info = 'Rucurso não disponivel'
+        conn.send(info.encode())        
+    elif '2' == data.decode('utf-8'):
+      if qtde_token < control:
+        qtde_token += 1
+        info = 'Token devolvido'
+        conn.send(info.encode())        
+      else:
+        info = 'Rucurso não disponivel'
+        conn.send(info.encode())        
+    elif '3' == data.decode('utf-8'):
       info = (str(qtde_token) + ' tokens disponiveis')
-      conn.send(info.encode('utf-8')) # Envia mensagem
-    
-    qtde_token -= 1    
-    conn.sendall(data)  
+      conn.send(info.encode('utf-8'))     
     
 
 if __name__ == "__main__":
