@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 
 import socket
-
 import threading
 import uuid
 import socket
 
-
+qtde_token = int(input("Quantidade de token: "))      
 def conecta(conn, qtde_token):
   aux = qtde_token
   while True:
@@ -45,17 +44,14 @@ def main():
   sock.bind((HOST, PORT))
   sock.listen()  
    
-  global qtde_token = int(input("Quantidade de token: "))      
+  
   while True:
     print('Aguardando conexão...')
     # aceitando a conexão
-    conn, endereco = sock.accept()    
+    conn, endereco = sock.accept()        
     print(f'Conectado com o cliente no endereço: {endereco}')    
-    # abrindo threads 
-    threading.Thread(target=conecta, args=(conn, qtde_token)).start()
-    
-
-    
+    # abrindo threads   
+    threading.Thread(target=conecta, args=(conn, qtde_token)).start()   
       
 
 if __name__ == "__main__":  
