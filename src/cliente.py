@@ -14,6 +14,8 @@ def main():
     print(f'1) Solicitar Token (3 -1)\n2) Devolver token (5 X) \n3) Quantidade de recursos disponíveis (1 -1) \n')
     msg = input('Insira a opção escolhida:  ')
     # Envia solicitação
+    if not msg:
+      break
     sock.send(str.encode(msg))    
     # Resposta do servidor
     info = sock.recv(1024)
